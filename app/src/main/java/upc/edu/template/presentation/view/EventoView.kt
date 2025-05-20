@@ -27,67 +27,34 @@ import coil3.compose.AsyncImage
 import upc.edu.template.domain.model.Evento
 import upc.edu.template.presentation.viewmodel.EventosViewModel
 
-
 @Composable
-fun SearchEvent(viewModel: EventosViewModel, OnEventoClick : (Int) -> Unit) {
+fun EventoView(viewModel: EventosViewModel, OnEventoClick: (Int) -> Unit) {
     val eventos = viewModel.evento.collectAsState()
 
-    val title = remember {
-        mutableStateOf("")
-    }
-
     Column(modifier = Modifier.fillMaxSize()) {
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
-            value = title.value,
-            onValueChange = {
-                title.value = it
-            },
-            trailingIcon = {
-                IconButton(
-                    onClick = {
-                        viewModel.viewEventos(title.value)
-                    }
-                ) {
-                    Icon(Icons.Default.Search, contentDescription = null)
-                }
-            }
-        )
         LazyColumn {
-            items(eventos.value) { eventos ->
-                EventoListItemView(eventos, OnEventoClick)
+            items(eventos.value) { evento ->
+                EventoListItemView(evento, OnEventoClick)
             }
         }
     }
 }
 
-    @Composable
-    fun EventoListItemView(
-        evento: Evento,
-        onEventoClick: (Int) -> Unit
-    ){
-        Card(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-            onClick = {
-                onEventoClick(evento.id)
-            }
-        ){
-            Column {
-                AsyncImage(
-                    model = evento.image,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(256.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(evento.title, fontWeight = Bold, maxLines = 1)
-                Text(evento.date)
-                Text(evento.location)
-            }
+@Composable
+fun EventoListItemView(
+    evento: Evento,
+    onEventoClick: (Int) -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        onClick = { onEventoClick(evento.id) }
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(evento.title, fontWeight = Bold)
+            Text(evento.date)
+            Text(evento.location)
         }
     }
+}
