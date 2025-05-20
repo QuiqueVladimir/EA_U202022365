@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,9 @@ import upc.edu.template.presentation.viewmodel.EventosViewModel
 
 @Composable
 fun EventoView(viewModel: EventosViewModel, OnEventoClick: (Int) -> Unit) {
+    LaunchedEffect(Unit) {
+        viewModel.viewEventos("Título")
+    }
     val eventos = viewModel.evento.collectAsState()
 
     if (eventos.value.isEmpty()) {

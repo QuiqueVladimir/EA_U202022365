@@ -77,7 +77,7 @@ fun Home(){
                 }
             }
             composable("mis_eventos"){
-                // Aquí va el contenido de la pantalla 3
+
             }
         }
     }
