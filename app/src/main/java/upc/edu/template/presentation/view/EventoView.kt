@@ -28,9 +28,13 @@ import upc.edu.template.presentation.viewmodel.EventosViewModel
 fun EventoView(viewModel: EventosViewModel, OnEventoClick: (Int) -> Unit) {
     val eventos = viewModel.evento.collectAsState()
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(eventos.value) { evento ->
-            EventoListItemView(evento, OnEventoClick)
+    if (eventos.value.isEmpty()) {
+        Text("No hay eventos disponibles")
+    } else {
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(eventos.value) { evento ->
+                EventoListItemView(evento, OnEventoClick)
+            }
         }
     }
 }
